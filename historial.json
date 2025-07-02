@@ -1,0 +1,38 @@
+[
+    {
+        "marca": "BMW",
+        "modelo": "X6",
+        "anio": 2020,
+        "patente": "FTHG",
+        "falla": "motor",
+        "procedimiento": "motor reparado",
+        "fecha_ingreso": "2025-06-10 11:00",
+        "fecha_salida": "2025-06-15 15:00",
+        "reparado": true,
+        "costo": 50000
+    },
+    {
+        "marca": "Honda",
+        "modelo": "Civic",
+        "anio": 2019,
+        "patente": "JKL456",
+        "falla": "luces",
+        "procedimiento": "cambio de focos",
+        "fecha_ingreso": "2025-06-12 10:00",
+        "fecha_salida": "2025-06-14 16:30",
+        "reparado": true,
+        "costo": 15000
+    },
+    {
+        "marca": "Kia",
+        "modelo": "Sportage",
+        "anio": 2007,
+        "patente": "PBLO88",
+        "falla": "Sin combustible",
+        "procedimiento": "Carga Combustible",
+        "fecha_ingreso": "2025-06-16 10:51",
+        "reparado": true,
+        "costo": 50000,
+        "fecha_salida": "2025-06-16 10:52"
+    }
+]

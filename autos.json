@@ -1,0 +1,24 @@
+[
+    {
+        "marca": "Toyota",
+        "modelo": "Corolla",
+        "anio": 2018,
+        "patente": "ABC123",
+        "falla": "frenos",
+        "procedimiento": "",
+        "fecha_ingreso": "2025-06-15 09:30",
+        "reparado": false,
+        "costo": 0
+    },
+    {
+        "marca": "Ford",
+        "modelo": "Focus",
+        "anio": 2017,
+        "patente": "XYZ789",
+        "falla": "motor",
+        "procedimiento": "",
+        "fecha_ingreso": "2025-06-14 14:20",
+        "reparado": false,
+        "costo": 0
+    }
+]
