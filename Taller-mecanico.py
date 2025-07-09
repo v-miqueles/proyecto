@@ -230,4 +230,3 @@ while True:
     else:
         print(Fore.RED + "❌ Opción inválida. Por favor, intenta nuevamente.\n")
         
-# probando gitttttt
