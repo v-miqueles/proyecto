@@ -1,0 +1,38 @@
+[
+    {
+        "marca": "Chevrolet",
+        "modelo": "Spark",
+        "anio": 2012,
+        "patente": "KLJ456",
+        "falla": "Cambio de aceite",
+        "procedimiento": "Se realiz\u00c3\u00b3 cambio de aceite y filtro",
+        "fecha_ingreso": "2025-06-30 09:00",
+        "reparado": true,
+        "costo": 25000,
+        "fecha_salida": "2025-06-30 13:15"
+    },
+    {
+        "marca": "Ford",
+        "modelo": "Focus",
+        "anio": 2020,
+        "patente": "FGH123",
+        "falla": "Revisi\u00c3\u00b3n el\u00c3\u00a9ctrica",
+        "procedimiento": "Cambio de bater\u00c3\u00ada y revisi\u00c3\u00b3n de fusibles",
+        "fecha_ingreso": "2025-07-02 14:00",
+        "reparado": true,
+        "costo": 60000,
+        "fecha_salida": "2025-07-03 11:45"
+    },
+    {
+        "marca": "Toyota",
+        "modelo": "Corolla",
+        "anio": 2015,
+        "patente": "ABCD12",
+        "falla": "No enciende",
+        "procedimiento": "Reconfiguracion de llave ",
+        "fecha_ingreso": "2025-07-09 15:30",
+        "reparado": true,
+        "costo": 29000,
+        "fecha_salida": "2025-07-08 22:41"
+    }
+]

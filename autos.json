@@ -1,0 +1,14 @@
+[
+    {
+        "marca": "Hyundai",
+        "modelo": "Accent",
+        "anio": 2018,
+        "patente": "XYZ789",
+        "falla": "Revisi\u00c3\u00b3n de frenos",
+        "procedimiento": "",
+        "fecha_ingreso": "2025-07-08 10:20",
+        "reparado": false,
+        "costo": 0,
+        "fecha_salida": null
+    }
+]
