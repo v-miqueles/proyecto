@@ -2,6 +2,8 @@
 from modelos import Auto, Taller, Historial
 from tabulate import tabulate
 from colorama import Fore, Style, init
+from collections import defaultdict
+from datetime import datetime
 
 init(autoreset=True)
 
@@ -68,7 +70,7 @@ class TallerApp:
 
     def ver_autos(self):
         self.encabezado("🚗 Autos en el Taller")
-        autos = self.taller.listar_autos()
+        autos = self.taller.autos
         if not autos:
             print(Fore.YELLOW + "ℹ️ No hay autos en el taller.")
             return
@@ -80,7 +82,7 @@ class TallerApp:
 
     def despachar_auto(self):
         self.encabezado("🚚 Despachar Auto")
-        autos = self.taller.listar_autos()
+        autos = self.taller.autos
         if not autos:
             print(Fore.YELLOW + "ℹ️ No hay autos para despachar.")
             return
@@ -109,35 +111,71 @@ class TallerApp:
             print("=" * 50)
             opcion = input("👉 Selecciona una opción (1-4): ").strip()
             if opcion == '1':
-                patente = input("Ingresa la patente a buscar: ").strip().upper()
-                resultados = self.historial.buscar_por_patente(patente)
-                if resultados:
-                    for auto in resultados:
-                        print(f"\n{auto.marca} {auto.modelo} ({auto.anio}) - {auto.patente}")
-                        print(f"Falla: {auto.falla}")
-                        print(f"Procedimiento: {auto.procedimiento}")
-                        print(f"Costo: ${auto.costo:,} CLP\n")
-                else:
-                    print(Fore.YELLOW + f"ℹ️ No se encontraron autos con la patente '{patente}'.")
+                self.historial_buscar_por_patente()
             elif opcion == '2':
-                self.encabezado("📋 Historial de Autos")
-                autos = self.historial.listar()
-                if not autos:
-                    print(Fore.YELLOW + "ℹ️ No hay autos en el historial.")
-                    continue
-                tabla = []
-                for i, a in enumerate(autos, 1):
-                    tabla.append([i, a.marca, a.modelo, a.anio, a.patente, a.falla, a.procedimiento, f"${a.costo:,} CLP"])
-                print(tabulate(tabla, headers=["#", "Marca", "Modelo", "Año", "Patente", "Falla", "Procedimiento", "Costo"], tablefmt="fancy_grid"))
+                self.historial_ver_completo()
             elif opcion == '3':
-                self.encabezado("💵 Ganancias del Taller")
-                ganancia = self.historial.calcular_ganancias()
-                print(Fore.GREEN + f"Ganancia total: ${ganancia:,} CLP")
+                self.historial_ganancias()
             elif opcion == '4':
                 print(Fore.CYAN + "🔙 Volviendo al menú principal...")
                 break
             else:
                 print(Fore.RED + "❌ Opción inválida. Intenta nuevamente.")
+
+    def historial_buscar_por_patente(self):
+        patente = input("Ingresa la patente a buscar: ").strip().upper()
+        resultados = self.historial.buscar_por_patente(patente)
+        if resultados:
+            for auto in resultados:
+                print(f"\n{auto.marca} {auto.modelo} ({auto.anio}) - {auto.patente}")
+                print(f"Falla: {auto.falla}")
+                print(f"Procedimiento: {auto.procedimiento}")
+                print(f"Costo: ${auto.costo:,} CLP\n")
+        else:
+            print(Fore.YELLOW + f"ℹ️ No se encontraron autos con la patente '{patente}'.")
+
+    def historial_ver_completo(self):
+        self.encabezado("📋 Historial de Autos")
+        if not self.historial.autos:
+            print(Fore.YELLOW + "ℹ️ No hay autos en el historial.")
+            return
+        tabla = []
+        for i, a in enumerate(self.historial.autos, 1):
+            tabla.append([i, a.marca, a.modelo, a.anio, a.patente, a.falla, a.procedimiento, f"${a.costo:,} CLP"])
+        print(tabulate(tabla, headers=["#", "Marca", "Modelo", "Año", "Patente", "Falla", "Procedimiento", "Costo"], tablefmt="fancy_grid"))
+
+    def historial_ganancias(self):
+        self.encabezado("💵 Ganancias del Taller")
+        ganancias_dia = defaultdict(int)
+        ganancias_semana = defaultdict(int)
+        ganancias_mes = defaultdict(int)
+        ganancias_anio = defaultdict(int)
+
+        for auto in self.historial.autos:
+            if auto.fecha_salida and auto.costo:
+                try:
+                    fecha = datetime.strptime(auto.fecha_salida, "%Y-%m-%d %H:%M")
+                except ValueError:
+                    continue
+                ganancias_dia[fecha.strftime("%Y-%m-%d")] += auto.costo
+                ganancias_semana[fecha.strftime("%Y-%W")] += auto.costo
+                ganancias_mes[fecha.strftime("%Y-%m")] += auto.costo
+                ganancias_anio[fecha.strftime("%Y")] += auto.costo
+
+        total = sum(auto.costo for auto in self.historial.autos)
+
+        def dict_a_tabla(diccionario):
+            return [[k, f"${v:,} CLP"] for k, v in sorted(diccionario.items())]
+
+        print("Diarias:")
+        print(tabulate(dict_a_tabla(ganancias_dia), headers=["Día", "Ganancias"], tablefmt="fancy_grid"))
+        print("\nSemanales:")
+        print(tabulate(dict_a_tabla(ganancias_semana), headers=["Semana (YYYY-WW)", "Ganancias"], tablefmt="fancy_grid"))
+        print("\nMensuales:")
+        print(tabulate(dict_a_tabla(ganancias_mes), headers=["Mes (YYYY-MM)", "Ganancias"], tablefmt="fancy_grid"))
+        print("\nAnuales:")
+        print(tabulate(dict_a_tabla(ganancias_anio), headers=["Año", "Ganancias"], tablefmt="fancy_grid"))
+        print(Fore.GREEN + f"\nGanancia total acumulada: ${total:,} CLP\n")
 
     def despedida(self):
         print("\n" + "=" * 50)
